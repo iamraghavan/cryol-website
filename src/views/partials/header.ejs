@@ -5,7 +5,7 @@
                 <div class="header default-menu-style position-relative">
                     <!-- brand logo -->
                     <div class="header__logo">
-                        <a href="index.html">
+                        <a href="/">
                             <img src="assets/cryol_black.png" aria-label="Cryol Logo" width="160" height="48" class="img-fluid" alt="">
                         </a>
                     </div>
@@ -19,20 +19,22 @@
                                     <div class="header__navigation d-none d-xl-block">
                                         <nav class="navigation-menu primary--menu">
                                             <ul>
-                                                <li><a href="index.html"><span>Home</span></a></li>
+                                                <li><a href="/"><span>Home</span></a></li>
+                                                <li><a href=""><span>About Us</span></a></li>
                                                 <li class="has-children has-children--multilevel-submenu">
                                                     <a href="#"><span>Services</span></a>
                                                     <ul class="submenu">
-                                                        <li><a href="application-development.html"><span>Application Development</span></a></li>
-                                                        <li><a href="cyber-security.html"><span>Cyber Security</span></a></li>
-                                                        <li><a href="cyber-forensics.html"><span>Cyber Forensics</span></a></li>
-                                                        <li><a href="digital-marketing.html"><span>Digital Marketing</span></a></li>
+                                                        <li><a href=""><span>Application Development</span></a></li>
+                                                        <li><a href=""><span>Cloud Services</span></a></li>
+                                                        <li><a href=""><span>Cyber Security</span></a></li>
+                                                        <li><a href=""><span>Cyber Forensics</span></a></li>
+                                                        <li><a href=""><span>Digital Marketing</span></a></li>
                                                     </ul>
                                                 </li>
-                                                <li><a href="about-us.html"><span>About Us</span></a></li>
-                                                <li><a href="case-studies.html"><span>Case Studies</span></a></li>
-                                                <li><a href="contact.html"><span>Contact</span></a></li>
-                                                <li><a href="blog.html"><span>Blog</span></a></li>
+                                                
+                                                <li><a href=""><span>Case Studies</span></a></li>
+                                                <li><a href=""><span>Contact</span></a></li>
+                                                <li><a href=""><span>Blog</span></a></li>
                                             </ul>
                                         </nav>
                                     </div>
@@ -97,3 +99,61 @@
         </div>
     </div>
 </div>
+<!--====================  mobile menu overlay ====================-->
+<div class="mobile-menu-overlay" id="mobile-menu-overlay">
+    <div class="mobile-menu-overlay__inner">
+        <div class="mobile-menu-overlay__header">
+            <div class="container-fluid">
+                <div class="row align-items-center">
+                    <div class="col-md-6 col-8">
+                        <!-- logo -->
+                        <div class="logo">
+                            <a href="/">
+                                <img src="assets/cryol_black.png" class="img-fluid" alt="Logo">
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-4">
+                        <!-- mobile menu content -->
+                        <div class="mobile-menu-content text-end">
+                            <span class="mobile-navigation-close-icon" id="mobile-menu-close-trigger"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-menu-overlay__body">
+            <nav class="offcanvas-navigation">
+                <ul>
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    <li class="has-children">
+                        <a href="services.html">Services</a>
+                        <ul class="sub-menu">
+                            <li><a href="application-development.html"><span>Application Development</span></a></li>
+                            <li><a href="cybersecurity.html"><span>Cybersecurity</span></a></li>
+                            <li><a href="cyber-forensics.html"><span>Cyber Forensics</span></a></li>
+                            <li><a href="digital-marketing.html"><span>Digital Marketing</span></a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="about-us.html">About Us</a>
+                    </li>
+                    <li>
+                        <a href="case-studies.html">Case Studies</a>
+                    </li>
+                    <li>
+                        <a href="contact.html">Contact</a>
+                    </li>
+                    <li>
+                        <a href="blog.html">Blog</a>
+                    </li>
+                    
+                </ul>
+            </nav>
+            
+        </div>
+    </div>
+</div>
+<!--====================  End of mobile menu overlay  ====================-->
