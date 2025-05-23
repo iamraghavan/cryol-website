@@ -1,5 +1,59 @@
 <%- include('../partials/header') %>
-<section class="hero">
-  <h1>Welcome to our Business Website</h1>
-  <p>Explore our services and solutions tailored for your success.</p>
-</section>
+<div id="main-wrapper">
+<div class="site-wrapper-reveal">
+
+  <div class="appointment-hero-wrapper appointment-hero-bg section-space--ptb_120">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-6">
+                <div class="appointment-hero-wrap wow move-up animated" style="visibility: visible;">
+                    <div class="appointment-hero-text">
+                        <h6 class="text-white">Expert IT Solutions</h6>
+                        <h1 class="font-weight--reguler text-white mb-30">Transform Your Business with <span class="text-line">Our Services</span></h1>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-5 me-auto ms-auto col-md-6">
+                <div class="business-solution-form-wrap me-auto ms-auto">
+                    <div class="contact-title text-center section-space--mb_40">
+                        <h5 class="mb-10">Quick Enquiry</h5>
+                        <p class="text">Connect with us to explore our IT solutions.</p>
+                    </div>
+                    <form id="contact-form" action="" method="post">
+                        <div class="contact-form__two">
+                            <div class="contact-inner">
+                                <input name="con_name" type="text" placeholder="Name *" spellcheck="false" required>
+                            </div>
+                            <div class="contact-inner">
+                                <input name="con_phone" type="tel" id="phone" inputmode="numeric" placeholder="Phone Number *" required>
+                            </div>
+                            <div class="contact-select">
+                                <div class="form-item contact-inner">
+                                    <span class="inquiry">
+                                        <select id="department" name="department" required>
+                                            <option disabled selected>Select Department to Contact</option>
+                                            <option value="Application Development">Application Development</option>
+                                            <option value="Cybersecurity">Cybersecurity</option>
+                                            <option value="Development">Development</option>
+                                            <option value="Cyber Forensics">Cyber Forensics</option>
+                                            <option value="Marketing">Marketing</option>
+                                        </select>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="comment-submit-btn text-center">
+                                <button class="ht-btn ht-btn-md" type="submit">Submit</button>
+                                <p class="form-messege"></p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+</div>
+</div>

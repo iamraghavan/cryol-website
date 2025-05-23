@@ -9,14 +9,34 @@ const { notFoundHandler, errorHandler } = require('./middleware/errorHandler');
 
 const app = express();
 
-// Set EJS as view engine with express-ejs-layouts
+
 app.use(expressLayouts);
-app.set('layout', 'layouts/default');  // default layout file: views/layouts/default.ejs
+app.set('layout', 'layouts/default'); 
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
-// Apply security headers
-app.use(helmet());
+// Apply security headers with custom CSP
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://cdnjs.cloudflare.com" 
+      ],
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://cdnjs.cloudflare.com"
+      ],
+      connectSrc: ["'self'", "https://cdnjs.cloudflare.com"], 
+      imgSrc: ["'self'", "data:", "https://cdnjs.cloudflare.com"], 
+      objectSrc: ["'none'"],
+      upgradeInsecureRequests: []
+    }
+  }
+}));
 
 // Gzip compression
 app.use(compression());

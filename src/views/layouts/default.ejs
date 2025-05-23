@@ -43,5 +43,68 @@
     <!-- Main JS -->
     <script src="assets/js/main.js"></script>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/css/intlTelInput.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/intlTelInput.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const phoneInput = document.querySelector("#phone");
+    const form = document.querySelector("#contact-form");
+    const errorMsg = document.querySelector("#phone-error");
+    const iti = window.intlTelInput(phoneInput, {
+        initialCountry: "in",
+        separateDialCode: true,
+        utilsScript: "https://cdnjs.cloudflare.com/ajax/libs/intl-tel-input/17.0.8/js/utils.js"
+    });
+
+    // Restrict input to numbers only
+    phoneInput.addEventListener("input", function(e) {
+        const value = e.target.value;
+        e.target.value = value.replace(/[^0-9]/g, ""); // Allow only digits
+    });
+
+    // Prevent non-numeric keypresses
+    phoneInput.addEventListener("keypress", function(e) {
+        const charCode = e.which || e.keyCode;
+        if (charCode < 48 || charCode > 57) { // Allow only 0-9
+            e.preventDefault();
+        }
+    });
+
+    // Validate on form submission
+    form.addEventListener("submit", function(e) {
+        e.preventDefault(); // Prevent default submission
+        const phoneNumber = iti.getNumber(); // Get full number with country code
+        const isValid = iti.isValidNumber(); // Check if number is valid
+        const numberLength = phoneNumber.replace(/[^0-9]/g, "").length; // Count digits
+
+        if (!isValid) {
+            errorMsg.textContent = "Please enter a valid phone number.";
+            phoneInput.classList.add("error");
+            return;
+        }
+
+        if (numberLength < 10 || numberLength > 15) {
+            errorMsg.textContent = "Phone number must be between 10 and 15 digits.";
+            phoneInput.classList.add("error");
+            return;
+        }
+
+        // Clear error and proceed with submission
+        errorMsg.textContent = "";
+        phoneInput.classList.remove("error");
+        console.log("Submitting phone number:", phoneNumber); // Replace with actual form submission logic
+
+        // Example: Submit the form programmatically
+        // form.submit();
+    });
+
+    // Clear error on input change
+    phoneInput.addEventListener("input", function() {
+        errorMsg.textContent = "";
+        phoneInput.classList.remove("error");
+    });
+});
+</script>
+
 </body>
 </html>
