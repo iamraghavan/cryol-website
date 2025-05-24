@@ -6,7 +6,7 @@ const pageController = require('../controllers/pageController');
 router.get('/', pageController.home);
 
 // // About Page
-// router.get('/about', pageController.about);
+router.get('/about-us', pageController.about);
 
 // // Services Page
 // router.get('/services', pageController.services);
