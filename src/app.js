@@ -18,7 +18,7 @@ app.set('trust proxy', 1);
 
 // CORS Configuration
 app.use(cors({
-  origin: ['https://cryol.vercel.app', 'localhost','192.168.1.3'],
+  origin: ['cryol.vercel.app','vercel.app', 'localhost','192.168.1.3'],
   optionsSuccessStatus: 200
 }));
 
