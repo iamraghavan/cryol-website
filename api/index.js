@@ -1,30 +1,27 @@
-require('dotenv').config();
 const express = require('express');
-const serverless = require('serverless-http');
 const morgan = require('morgan');
 const path = require('path');
 const compression = require('compression');
 const helmet = require('helmet');
 const expressLayouts = require('express-ejs-layouts');
-const webRoutes = require('../src/routes/web');
-const { notFoundHandler, errorHandler } = require('../src/middleware/errorHandler');
 const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const cors = require('cors');
 const xss = require('xss');
+const serverless = require('serverless-http');
+
+const webRoutes = require('../src/routes/web');  // Adjust if needed
+const { notFoundHandler, errorHandler } = require('../src/middleware/errorHandler'); // Adjust if needed
 
 const app = express();
 
-// Trust proxies
 app.set('trust proxy', 1);
 
-// CORS Configuration
 app.use(cors({
-  origin: ['https://cryol.vercel.app', 'https://vercel.app', 'http://localhost:3000', 'http://192.168.1.3:3000'],
+  origin: ['https://cryol.vercel.app','https://vercel.app', 'http://localhost','http://192.168.1.3'],
   optionsSuccessStatus: 200
 }));
 
-// Secure HTTP Headers
 app.use(helmet({
   contentSecurityPolicy: {
     directives: {
@@ -41,17 +38,11 @@ app.use(helmet({
   crossOriginEmbedderPolicy: { policy: "require-corp" }
 }));
 
-// Gzip compression
 app.use(compression());
-
-// Request logging
 app.use(morgan('dev'));
-
-// Body parser
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Manual sanitization for NoSQL injection and XSS
 app.use((req, res, next) => {
   const sanitize = (obj) => {
     for (const key in obj) {
@@ -69,50 +60,32 @@ app.use((req, res, next) => {
   next();
 });
 
-// Prevent HTTP Parameter Pollution
 app.use(hpp({ whitelist: ['filter'] }));
 
-// Static assets (no cache in dev, cache in production)
-const publicPath = path.join(__dirname, '../public');
-if (process.env.NODE_ENV === 'production') {
-  app.use('/assets', express.static(path.join(publicPath, 'assets'), {
-    maxAge: '30d',
-    etag: true
-  }));
-} else {
-  app.use('/assets', express.static(path.join(publicPath, 'assets'), {
-    etag: false,
-    lastModified: false,
-    setHeaders: (res) => {
-      res.setHeader('Cache-Control', 'no-store');
-    }
-  }));
-}
+// Serve static files relative to project root
+const publicPath = path.join(process.cwd(), 'public');
+app.use('/assets', express.static(path.join(publicPath, 'assets'), {
+  maxAge: process.env.NODE_ENV === 'production' ? '30d' : 0,
+  etag: process.env.NODE_ENV === 'production'
+}));
 
-// Rate limiter
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
+  windowMs: 15 * 60 * 1000,
   max: 100,
   message: 'Too many requests from this IP, please try again later.'
 });
 app.use(limiter);
 
-// EJS Templating
 app.use(expressLayouts);
 app.set('layout', 'layouts/default');
 app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, '../src/views'));
+app.set('views', path.join(process.cwd(), 'src/views'));
 app.locals.assetPath = '/assets';
 
-// Web routes
 app.use('/', webRoutes);
 
-// 404 handler
 app.use(notFoundHandler);
-
-// Centralized error handler
 app.use(errorHandler);
 
-// Export app and serverless handler for Vercel
 module.exports = app;
 module.exports.handler = serverless(app);
