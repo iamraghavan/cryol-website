@@ -1,0 +1,148 @@
+
+<style>
+  .contact-form-s{
+        width: 100%;
+    color: #000;
+    border-color: #f8f8f8;
+    background-color: #f8f8f8;
+    font-size: 15px;
+    font-weight: 400;
+    letter-spacing: 0em;
+    border: none;
+    width: 100%;
+    outline: none;
+    border: 1px solid #eee;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    border-radius: 5px;
+    padding: 3px 20px;
+    height: 56px;
+  }
+</style>
+
+<div class="contact-us-section-wrappaer section-space--pt_100 section-space--pb_70">
+                <div class="container">
+                    <div class="row align-items-center">
+                        <div class="col-lg-6 col-lg-6">
+                            <div class="conact-us-wrap-one mb-30">
+                                <h3 class="heading">To make requests for <br>further information, <br><span class="text-color-primary">contact us</span> via our social channels. </h3>
+                                <div class="sub-heading">We just need a couple of hours! <br> No more than 2 working days since receiving your issue ticket.</div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-lg-6">
+                            <div class="contact-form-wrap">
+
+                               <div>
+  <form id="contactForm" method="POST" action="/contact-us">
+    <input type="hidden" name="_csrf" value="<%= csrfToken %>">
+    <div class="mb-3">
+      <label for="name" class="form-label">Name *</label>
+      <input type="text" class="form-control contact-form-s" id="name" name="name" required>
+      <div class="invalid-feedback">Please enter your name.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email *</label>
+      <input type="email" class="form-control contact-form-s" id="email" name="email" required>
+      <div class="invalid-feedback">Please enter a valid email address.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="phone" class="form-label">Phone Number *</label>
+      <div class="input-group">
+        
+        <input type="tel" class="form-control contact-form-s" id="phone" name="phone" required>
+      </div>
+      <div class="invalid-feedback">Please enter a valid phone number.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="department" class="form-label">Select Department *</label>
+      <select class="form-select contact-form-s" id="department" name="department" required>
+        <option disabled selected value="">Select Department to Contact</option>
+        <option value="Application Development">Application Development</option>
+        <option value="Cloud Services">Cloud Services</option>
+        <option value="Cyber Forensics">Cyber Forensics</option>
+        <option value="Cybersecurity">Cybersecurity</option>
+        <option value="Marketing">Marketing</option>
+      </select>
+      <div class="invalid-feedback">Please select a department.</div>
+    </div>
+
+    <div class="mb-3">
+      <label for="message" class="form-label">Message (max 250 characters) *</label>
+      <textarea class="form-control" id="message" name="message" maxlength="250" rows="3" required></textarea>
+      <div class="invalid-feedback">Please enter your message (max 250 characters).</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Send Message</button>
+  </form>
+</div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+<script>
+  document.getElementById('contactForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    let isValid = true;
+
+    const form = this;
+    const name = form.name;
+    const email = form.email;
+    const phone = form.phone;
+    const department = form.department;
+    const message = form.message;
+
+    // Reset invalid classes
+    form.querySelectorAll('.form-control, .form-select').forEach(el => el.classList.remove('is-invalid'));
+
+    if (name.value.trim() === '') {
+      name.classList.add('is-invalid');
+      isValid = false;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.value)) {
+      email.classList.add('is-invalid');
+      isValid = false;
+    }
+
+    if (!/^[0-9]{7,15}$/.test(phone.value)) {
+      phone.classList.add('is-invalid');
+      isValid = false;
+    }
+
+    if (department.value === '') {
+      department.classList.add('is-invalid');
+      isValid = false;
+    }
+
+    if (message.value.trim() === '' || message.value.length > 250) {
+      message.classList.add('is-invalid');
+      isValid = false;
+    }
+
+    if (isValid) {
+      form.submit();
+    }
+  });
+</script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('success') === '1') {
+    alert('Thank you for contacting us! We will get back to you shortly.');
+    // Remove ?success=1 from URL without refreshing
+    if (window.history.replaceState) {
+      const url = new URL(window.location);
+      url.searchParams.delete('success');
+      window.history.replaceState({}, document.title, url.pathname);
+    }
+  }
+</script>

@@ -10,7 +10,7 @@ const rateLimit = require('express-rate-limit');
 const hpp = require('hpp');
 const cors = require('cors');
 const xss = require('xss');
-
+const csrf = require('csurf');
 const app = express();
 
 // Trust proxies if behind one (Heroku/Render/Netlify)
@@ -25,12 +25,55 @@ app.use(cors({
 // Secure HTTP Headers
 app.use(helmet({
   contentSecurityPolicy: {
+    readonly: true,
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://cdnjs.cloudflare.com"],
-      connectSrc: ["'self'", "https://cdnjs.cloudflare.com"],
-      imgSrc: ["'self'", "data:", "https://cdnjs.cloudflare.com"],
+
+      scriptSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://cdnjs.cloudflare.com",
+        "https://cdn.jsdelivr.net"
+      ],
+      scriptSrcElem: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://cdnjs.cloudflare.com",
+        "https://cdn.jsdelivr.net"
+      ],
+
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://cdnjs.cloudflare.com",
+        "https://fonts.googleapis.com",
+        "https://cdn.jsdelivr.net"
+      ],
+      styleSrcElem: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://cdnjs.cloudflare.com",
+        "https://fonts.googleapis.com",
+        "https://cdn.jsdelivr.net"
+      ],
+
+      fontSrc: [
+        "'self'",
+        "https://fonts.gstatic.com"
+      ],
+
+      imgSrc: [
+        "'self'",
+        "data:",
+        "https://cdnjs.cloudflare.com"
+      ],
+
+      connectSrc: [
+        "'self'",
+        "https://cdnjs.cloudflare.com",
+        "https://cdn.jsdelivr.net"
+      ],
+
       objectSrc: ["'none'"],
       upgradeInsecureRequests: []
     }
@@ -38,6 +81,8 @@ app.use(helmet({
   crossOriginResourcePolicy: { policy: "same-origin" },
   crossOriginEmbedderPolicy: { policy: "require-corp" }
 }));
+
+
 
 // Gzip compression
 app.use(compression());
@@ -71,6 +116,18 @@ app.use((req, res, next) => {
 app.use(hpp({
   whitelist: ['filter']
 }));
+
+
+
+// Setup CSRF protection middleware
+const csrfProtection = csrf({ cookie: true });
+
+// Add cookie parser if you haven't yet
+const cookieParser = require('cookie-parser');
+app.use(cookieParser());
+
+// For routes needing CSRF, add csrfProtection
+
 
 // Serve static files securely — BEFORE rate limiter
 const publicPath = path.join(__dirname, '../public');

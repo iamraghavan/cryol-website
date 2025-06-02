@@ -27,3 +27,10 @@ exports.cyberForensicsServices = (req, res) => {
 exports.digitalMarketingServices = (req, res) => {
   res.render('pages/digital-marketing', { title: 'Digital Marketing Services - Business Website' });
 }
+
+exports.contactUs = (req, res) => {
+  res.render('pages/contact', {
+    csrfToken: req.csrfToken(),
+    title: 'Contact Us - Business Website'
+  });
+}
